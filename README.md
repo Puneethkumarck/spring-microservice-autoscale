@@ -64,7 +64,7 @@ while true; do curl http://localhost:8080/retrieve; done
 
 9. terminate the load testing
 
-10. Wait for sometime and verify change in HPA and Kubernetes events to scaling down the pod
+10. Wait for sometime and verify change in HPA and Kubernetes events to scaling down the pod to minimum replica count , since CPU consumption is low
 
 11. clean up resources <b>kubectl delete -f k8s/
 
