@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-microservice-autoscale-deployment
+  namespace: default
+  labels:
+    app: springapp-autoscale-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springapp-autoscale-deployment
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: springapp-autoscale-deployment
+    spec:
+      containers:
+        - ports:
+            - name: port
+              containerPort: 8080
+          resources:
+            limits:
+              memory: "300Mi"
+              cpu: "300m"
+            requests:
+              memory: "200Mi"
+              cpu: "200m"
+          env:
+            - name: MYSQL_DATABASE_URL
+              value: jdbc:mysql://mysql/customerdb
+          name: springapp-autoscale-deployment
+          image: spring-microservice-autoscale-deployment:v3
+          imagePullPolicy: IfNotPresent
+
+---
+# Service definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: springapp-autoscale-service
+spec:
+  selector:
+    app: springapp-autoscale-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
