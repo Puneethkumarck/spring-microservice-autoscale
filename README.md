@@ -21,7 +21,7 @@
 
  mvn clean install
 
-```aidl
+```
 Build docker image 
 
 docker build -t spring-microservice-autoscale-deployment:v3 . 
